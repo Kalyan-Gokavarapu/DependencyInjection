@@ -45,7 +45,7 @@ namespace WithoutDependencyInjection
   public class DataAccess
   {
     // Insert/Update DB
-    internal void store(string userName, string password)
+    public void store(string userName, string password)
     {
       var method = MethodBase.GetCurrentMethod();
       Console.WriteLine("DA: Done Updating the SQL db :{0}.{1}", method.ReflectedType.Name, method.Name);
