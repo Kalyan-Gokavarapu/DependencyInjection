@@ -35,10 +35,10 @@ namespace DependencyInjection
       //Dependency Injection Container
       ServiceCollection collection = new ServiceCollection();
       //collection.AddScoped<WithDependencyInjection.IDataAccess, WithDependencyInjection.DataAccess>();
-      collection.AddScoped<WithDependencyInjection.IDataAccess, WithDependencyInjection.DataAccessMongo>();
-      collection.AddScoped<WithDependencyInjection.IBusiness, WithDependencyInjection.Business>();
       collection.AddScoped<WithDependencyInjection.IUserInterface, WithDependencyInjection.UserInterface>();
-
+      collection.AddScoped<WithDependencyInjection.IBusiness, WithDependencyInjection.Business>();
+      collection.AddScoped<WithDependencyInjection.IDataAccess, WithDependencyInjection.DataAccessMongo>();
+      
       var provider = collection.BuildServiceProvider();
       var userInterface =provider.GetService<WithDependencyInjection.IUserInterface>();
       WithDI WithDInjection = new WithDI(userInterface);
