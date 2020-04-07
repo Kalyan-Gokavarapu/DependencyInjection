@@ -4,6 +4,7 @@ using System.Text;
 using WithDependencyInjection;
 using WithoutDependencyInjection;
 using ConstructorInjection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DependencyInjection
 {
@@ -32,8 +33,16 @@ namespace DependencyInjection
       CInjection.Run();
 
       //Dependency Injection Container
-      WithDI WithDependencyInjection = new WithDI();
-      WithDependencyInjection.Run();
+      ServiceCollection collection = new ServiceCollection();
+      //collection.AddScoped<WithDependencyInjection.IDataAccess, WithDependencyInjection.DataAccess>();
+      collection.AddScoped<WithDependencyInjection.IDataAccess, WithDependencyInjection.DataAccessMongo>();
+      collection.AddScoped<WithDependencyInjection.IBusiness, WithDependencyInjection.Business>();
+      collection.AddScoped<WithDependencyInjection.IUserInterface, WithDependencyInjection.UserInterface>();
+
+      var provider = collection.BuildServiceProvider();
+      var userInterface =provider.GetService<WithDependencyInjection.IUserInterface>();
+      WithDI WithDInjection = new WithDI(userInterface);
+      WithDInjection.Run();
     }
   }
 }
