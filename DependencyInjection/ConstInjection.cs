@@ -3,18 +3,45 @@ using System.Reflection;
 
 namespace ConstructorInjection
 {
+  #region interfaces
+
+  public interface IUserInterface
+  {
+    void render();
+  }
+  public interface IBusiness
+  {
+    void signUp(string userName, string Passwor);
+  }
+  public interface IDataAccess
+  {
+    void store(string userName, string password);
+  }
+
+  #endregion
+
   class ConstInjection
   {
+    private IUserInterface _ui;
+    public ConstInjection (IUserInterface ui)
+    {
+      this._ui = ui;
+    }
     public void Run()
     {
-      UserInterface UI = new UserInterface();
-      UI.render();
+      //UserInterface UI = new UserInterface();
+      _ui.render();
       Console.Read();
     }
   }
-
-  public class UserInterface
+  
+  public class UserInterface: IUserInterface
   {
+    private IBusiness _bl;
+    public UserInterface(IBusiness bl)
+    {
+      this._bl = bl;
+    }
     public void render()
     {
       Console.ReadLine();
@@ -23,32 +50,47 @@ namespace ConstructorInjection
       var username = Console.ReadLine();
       Console.Write("Please enter the password:");
       var password = Console.ReadLine();
-      Business BL = new Business();
+      //Business BL = new Business();
       Console.WriteLine("UI: Done collecting Username & Password :{0}.{1}", method.ReflectedType.FullName,method.Name);
-      BL.signUp(username, password);      
+      _bl.signUp(username, password);      
     }   
     
   }
-
-  public class Business
+    
+  public class Business: IBusiness
   {
+    private IDataAccess _da;
+    public Business(IDataAccess da)
+    {
+      this._da = da;
+    }
     public void signUp(string userName, string Password)
     {
       var method = MethodBase.GetCurrentMethod();
       //Validation
-      DataAccess DL = new DataAccess();
+      //IDataAccess DL = new DataAccess();
       Console.WriteLine("BL: Done Validating the User :{0}.{1}", method.ReflectedType.FullName, method.Name);
-      DL.store(userName, Password);
+      _da.store(userName, Password);
     }
   }
-
-  public class DataAccess
+  
+  public class DataAccess: IDataAccess
   {
     // Insert/Update DB
     public void store(string userName, string password)
     {
       var method = MethodBase.GetCurrentMethod();
       Console.WriteLine("DA: Done Updating the SQL db :{0}.{1}", method.ReflectedType.FullName, method.Name);
+    }
+  }
+
+  public class DataAccessMongo : IDataAccess
+  {
+    // Insert/Update DB
+    public void store(string userName, string password)
+    {
+      var method = MethodBase.GetCurrentMethod();
+      Console.WriteLine("DA: Done Updating the Mongo db :{0}.{1}", method.ReflectedType.FullName, method.Name);
     }
   }
 }
