@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
 
-namespace WithoutDependencyInjection
+namespace ConstructorInjection
 {
-  class WithoutDI
+  class ConstInjection
   {
     public void Run()
     {
@@ -24,7 +24,7 @@ namespace WithoutDependencyInjection
       Console.Write("Please enter the password:");
       var password = Console.ReadLine();
       Business BL = new Business();
-      Console.WriteLine("UI: Done collecting Username & Password :{0}.{1}", method.ReflectedType.FullName, method.Name);
+      Console.WriteLine("UI: Done collecting Username & Password :{0}.{1}", method.ReflectedType.FullName,method.Name);
       BL.signUp(username, password);      
     }   
     

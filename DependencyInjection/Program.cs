@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WithDependencyInjection;
 using WithoutDependencyInjection;
+using ConstructorInjection;
 
 namespace DependencyInjection
 {
@@ -10,11 +11,14 @@ namespace DependencyInjection
   {
     public static void Main(string[] args)
     {
-      WithDI DI = new WithDI();
-      DI.Run();
+      WithoutDI WithoutDependencyInjection = new WithoutDI();
+      WithoutDependencyInjection.Run();
 
-      WithoutDI NoDI = new WithoutDI();
-      NoDI.Run();
+      ConstInjection ConstructorInjection = new ConstInjection();
+      ConstructorInjection.Run();
+
+      WithDI WithDependencyInjection = new WithDI();
+      WithDependencyInjection.Run();
     }
   }
 }
