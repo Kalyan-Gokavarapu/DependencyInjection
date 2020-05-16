@@ -13,34 +13,42 @@ namespace DependencyInjection
     public static void Main(string[] args)
     {
       //Crude way
-      WithoutDI WithoutDependencyInjection = new WithoutDI();
-      WithoutDependencyInjection.Run();
+      //WithoutDIMain WithoutDependencyInjection = new WithoutDIMain();
+      //WithoutDependencyInjection.Run();
 
 
       //Constructure Injection
-      //ConstructorInjection.DataAccess da = new ConstructorInjection.DataAccess();
-      //ConstructorInjection.Business bl = new ConstructorInjection.Business(da);
-      //ConstructorInjection.UserInterface ui = new ConstructorInjection.UserInterface(bl);
+      //ConstructorInjection.IDataAccess da = new ConstructorInjection.DataAccessMongo();
+      //ConstructorInjection.IBusiness bl = new ConstructorInjection.Business(da);
+      //ConstructorInjection.IUserInterface ui = new ConstructorInjection.UserInterface(bl);
+      //ConstInjectionMain CInjection = new ConstInjectionMain(ui);
+      //CInjection.Run();
+
       // or      
-      ConstructorInjection.IUserInterface ui = 
-        new ConstructorInjection.UserInterface(
-          new ConstructorInjection.Business(
-            //new ConstructorInjection.DataAccess()
-            new ConstructorInjection.DataAccessMongo()
-          )
-        );
-      ConstInjection CInjection = new ConstInjection(ui);
-      CInjection.Run();
+      //ConstructorInjection.IUserInterface ui =
+      //  new ConstructorInjection.UserInterface(
+      //    new ConstructorInjection.Business(
+      //      //new ConstructorInjection.DataAccess()
+      //      new ConstructorInjection.DataAccessMongo()
+      //    )
+      //  );
+      //ConstInjectionMain CInjection = new ConstInjectionMain(ui);
+      //CInjection.Run();
 
       //Dependency Injection Container
       ServiceCollection collection = new ServiceCollection();
       //collection.AddScoped<WithDependencyInjection.IDataAccess, WithDependencyInjection.DataAccess>();
       collection.AddScoped<WithDependencyInjection.IUserInterface, WithDependencyInjection.UserInterface>();
-      collection.AddScoped<WithDependencyInjection.IBusiness, WithDependencyInjection.Business>();
-      collection.AddScoped<WithDependencyInjection.IDataAccess, WithDependencyInjection.DataAccessMongo>();
+      collection.AddScoped<WithDependencyInjection.IBusiness, WithDependencyInjection.BusinessMock>();
+      collection.AddScoped<WithDependencyInjection.IDataAccess, WithDependencyInjection.DataAccess>();
+      // just maintains a mapping
+      // instances are not created until here
       
       var provider = collection.BuildServiceProvider();
-      var userInterface =provider.GetService<WithDependencyInjection.IUserInterface>();
+
+      var userInterface = provider.GetService<WithDependencyInjection.IUserInterface>();
+      // instance is created
+
       WithDI WithDInjection = new WithDI(userInterface);
       WithDInjection.Run();
     }

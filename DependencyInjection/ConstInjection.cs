@@ -20,10 +20,10 @@ namespace ConstructorInjection
 
   #endregion
 
-  class ConstInjection
+  class ConstInjectionMain
   {
     private IUserInterface _ui;
-    public ConstInjection (IUserInterface ui)
+    public ConstInjectionMain (IUserInterface ui)
     {
       this._ui = ui;
     }
@@ -73,7 +73,20 @@ namespace ConstructorInjection
       _da.store(userName, Password);
     }
   }
-  
+
+  public class BusinessMock : IBusiness
+  {
+    private IDataAccess _da;
+    public BusinessMock(IDataAccess da)
+    {
+      this._da = da;
+    }
+    public void signUp(string userName, string Password)
+    {
+      Console.WriteLine("Mock data..");
+    }
+  }
+
   public class DataAccess: IDataAccess
   {
     // Insert/Update DB
@@ -86,11 +99,31 @@ namespace ConstructorInjection
 
   public class DataAccessMongo : IDataAccess
   {
-    // Insert/Update DB
+    // Insert/Update Mongo DB
     public void store(string userName, string password)
     {
       var method = MethodBase.GetCurrentMethod();
       Console.WriteLine("DA: Done Updating the Mongo db :{0}.{1}", method.ReflectedType.FullName, method.Name);
+    }
+  }
+
+  public class DataAccessOra: IDataAccess
+  {
+    // Insert/Update Orag DB
+    public void store(string userName, string password)
+    {
+      var method = MethodBase.GetCurrentMethod();
+      Console.WriteLine("DA: Done Updating the SQL db :{0}.{1}", method.ReflectedType.FullName, method.Name);
+    }
+  }
+
+  public class DataAccessMock : IDataAccess
+  {
+    // Insert/Update Orag DB
+    public void store(string userName, string password)
+    {
+      var method = MethodBase.GetCurrentMethod();
+      Console.WriteLine("DA: Done Updating the SQL db :{0}.{1}", method.ReflectedType.FullName, method.Name);
     }
   }
 }

@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace WithoutDependencyInjection
 {
-  class WithoutDI
+  class WithoutDIMain
   {
     public void Run()
     {
@@ -26,9 +26,9 @@ namespace WithoutDependencyInjection
       Business BL = new Business();
       Console.WriteLine("UI: Done collecting Username & Password :{0}.{1}", method.ReflectedType.FullName, method.Name);
       BL.signUp(username, password);      
-    }   
-    
-  }
+    }
+
+    }
 
   public class Business
   {
@@ -51,4 +51,5 @@ namespace WithoutDependencyInjection
       Console.WriteLine("DA: Done Updating the SQL db :{0}.{1}", method.ReflectedType.FullName, method.Name);
     }
   }
+
 }

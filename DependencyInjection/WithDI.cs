@@ -75,6 +75,19 @@ namespace WithDependencyInjection
     }
   }
 
+  public class BusinessMock : IBusiness
+  {
+    private IDataAccess _da;
+    public BusinessMock(IDataAccess da)
+    {
+      this._da = da;
+    }
+    public void signUp(string userName, string Password)
+    {
+      Console.WriteLine("Mock data..");
+    }
+  }
+
   public class DataAccess : IDataAccess
   {
     // Insert/Update DB
@@ -92,6 +105,26 @@ namespace WithDependencyInjection
     {
       var method = MethodBase.GetCurrentMethod();
       Console.WriteLine("DA: Done Updating the Mongo db :{0}.{1}", method.ReflectedType.FullName, method.Name);
+    }
+  }
+
+  public class DataAccessOra : IDataAccess
+  {
+    // Insert/Update DB
+    public void store(string userName, string password)
+    {
+      var method = MethodBase.GetCurrentMethod();
+      Console.WriteLine("DA: Done Updating the SQL db :{0}.{1}", method.ReflectedType.FullName, method.Name);
+    }
+  }
+
+  public class DataAccessMock : IDataAccess
+  {
+    // Insert/Update Mock
+    public void store(string userName, string password)
+    {
+      var method = MethodBase.GetCurrentMethod();
+      Console.WriteLine("DA: Done Updating the SQL db :{0}.{1}", method.ReflectedType.FullName, method.Name);
     }
   }
 }
